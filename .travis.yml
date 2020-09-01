@@ -4,5 +4,18 @@ services:
 before_install:
     - docker build -t gurusharangupta/chat-app-docker -f Dockerfile.dev .
 
-script:
-    - docker run -e CI=true gurusharangupta/chat-app-docker npm run test
+#script:
+#    - docker run -e CI=true gurusharangupta/chat-app-docker npm run test
+ 
+deploy:
+    provider: "elasticbeanstalk"
+    region: "ap-south-1"
+    app: "chat-app-docker"
+    env: "ChatAppDocker-env"
+    bucket_name: "elasticbeanstalk-ap-south-1-833978582448"
+    bucket_path: "chat-app-docker"
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+        
